@@ -1,0 +1,37 @@
+\section{Question 6: Maintenance Strategy}
+\textit{Only the logic solver is repairable	as explained in	the last slide with	the GLM distribution. This is purely corrective	maintenance. Do you think you could recommend preventive maintenance strategies in addition to the corrective one? Which kind of preventive maintenance strategies? Give a methodology to evaluate the performance of the proposed preventive maintenance strategies.}
+\begin{center}
+\line(1,0){250}
+\end{center}
+In the current system description the Logic Solver is the only component given which is repairable. Furthermore, only corrective maintenance is intended.
+
+Several approaches can be taken to change the maintenance structure.
+
+\textbf{Stick to corrective maintenance:}
+If the parameters of the repair process are optimal (Spare unit on stock, quick exchange possible, low downtime, low value of spare item) it can be economical beneficial to continue performing only corrective maintenance in case of a failure.
+
+\textbf{Change to clock-based maintenance:}
+Depending on the maintenance strategy and operation of the rest of the system, clock-based maintenance can be an option. This is the case, if other parts of the system already undergo clock-based maintenance and thus the maintenance for the Logic Solver can be added to it in a similar way.
+
+\textbf{Change to age-based maintenance:}
+The age-based maintenance is another approach which, if implemented correctly, can reduce overall lifecycle costs and increase the overall system performance. It is required to have the possibility to log the operation time of the Logic Solver. 
+
+\textbf{Change to condition-based maintenance:}
+The most advanced maintenance system is based on the condition of the item. Rather than changing it based on time in use or operation hours, the actual condition and functionality of the device is monitored. For items like Logic Solvers this can be implemented by having a periodic self-check with a feedback routine to inform personnel about an upcoming defect.
+Implementing such a system is increasing the fixed operation costs and may create investment costs. Additionally condition based maintenance requires trained personnel, which may increase costs as well.
+
+\textbf{Evaluating different methods:}
+To evaluate the best maintenance method, it is necessary to gather information about the system beforehand:
+
+\begin{itemize}
+\item Costs for corrective maintenance
+\item Costs for preventive maintenance
+\item Costs for implementing clock/age/condition-based maintenance
+\item Downtime cost and duration in case of corrective maintenance
+\item Downtime cost and duration in case of preventive maintenance
+\item Effectiveness of preventive maintenance (revert back to as-new state possible?)
+\item Current maintenance approach at the rest of the system for possible synchronisation
+\item Failure distribution model for item in scope (Exponential in case of Logic Solver)
+\end{itemize}
+
+After assessing the information it is possible to create mathematical formulas expressing the maintenance costs depending on the time. This numerical approach allows to plot a comparative array of graphs. A qualitative result is quickly found by that, and additionally a quantitative evaluation can be done afterwards to derive the optimal parameters for the selected maintenance system.

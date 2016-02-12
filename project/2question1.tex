@@ -1,0 +1,167 @@
+\section{Question 1: Fault Tree}
+\textit{Give the fault tree related	to the event "Pipeline burst" and give the minimal cut sets.}
+\begin{center}
+\line(1,0){250}
+\end{center}
+A fault tree is a good method to illustrate a system and see the interaction between components and modules leading to a given TOP event. In this case, TOP event is \textit{Pipeline Burst}. See figure \ref{fig:faulttree} for the fault tree.
+
+Assumption:
+One well does not produce enough internal pressure for the whole pipeline system to burst due to overpressure. Hence the gate leading to "Valve Failure" is an AND-gate.
+
+\begin{figure}[!h]
+\advance\leftskip-1cm
+\begin{tikzpicture}[
+% Gates and symbols style
+    and/.style={and gate US,thick,draw,fill=white!,rotate=90,
+		anchor=east,xshift=-1mm},
+    or/.style={or gate US,thick,draw,fill=white!60,rotate=90,
+		anchor=east,xshift=-1mm},
+    bev/.style={circle,thick,draw,fill=red!30,anchor=north,
+		minimum width=0.85cm},
+	bel/.style={circle,thick,draw,fill=green!30,anchor=north,
+		minimum width=0.85cm},
+    bes/.style={circle,thick,draw,fill=blue!30,anchor=north,
+		minimum width=0.85cm},
+    tr/.style={buffer gate US,thick,draw,fill=white!60,rotate=90,
+		anchor=east,minimum width=0.8cm},
+% Label style
+    label distance=0mm,
+    every label/.style={black},
+% Event style
+    event/.style={rectangle,thick,draw,fill=white!20,text width=2cm,
+		text centered,anchor=north},
+    event2/.style={rectangle,thick,draw,fill=white!20,text width=3cm,
+		text centered,anchor=north},
+% Children and edges style
+    edge from parent/.style={very thick,draw=black!70},
+    edge from parent path={(\tikzparentnode.south) -- ++(0, -1.25cm)
+			-| (\tikzchildnode.north)},
+    level 1/.style={sibling distance=3.75cm,level distance=1.8cm,
+			growth parent anchor=south,nodes=event},
+    level 2/.style={sibling distance=4.95cm},
+    level 3/.style={sibling distance=2.5cm,level distance=2.6cm},
+    level 4/.style={sibling distance=2.5cm}
+%%  For compatability with PGF CVS add the absolute option:
+%   absolute
+    ]
+%% Draw events and edges
+    \node (g1) [event] {TOP: Pipeline Burst}
+	      child{node (g2) {Sensor Failure}
+	            child{node (g3) [event2] {Too many sensors failed}
+	                child {node (b1) {Pressure Sensor 1 Failure}}
+	                child {node (b2) {Pressure Sensor 2 Failure}}
+	                child {node (b3) {Pressure Sensor 3 Failure}}
+	            }
+	            child{node (g4) {Sensor Common Cause Failure}}
+	      }
+	      child{node (g5) {Logic Solver Failure}}
+	      child{node (g6) {Valve Failure}
+	        child{node (c1) {Failure Valve Set 1}
+	            child{node (c2) {Shutdown Valve 1 Failure}}
+	            child{node (c3) {Solenoid Valve 1 Failure}}
+	        }
+	        child{node (c4) {Failure Valve Set 2}
+	            child{node (c5) {Shutdown Valve 2 Failure}}
+	            child{node (c6) {Solenoid Valve 2 Failure}}
+	        }
+%	            child {node (c2) {OV1: Overpressure Valves Set 1 Failure}}
+%	            child {node (c2) {OV2: Overpressure Valves Set 2 Failure}}
+%	      }
+};
+	      
+%	     	    child{node (g3) {SF:Sensor failure}
+%	     	            child{node (g4) {PSH: Pressure Sensor Fail}
+ %                                child {node (b2) {PSH 1}}
+%	     	                     child {node (b3) {PSH 2}}
+%	     	                     child {node (b4) {PSH 3}}
+ %                            }
+%	     	            child{node (g5) {CC: Common Cause}}   
+%		              }
+%	     	    child {node (b1) {LSF: Logic Solver Failure}}
+%	     	    child{node (c1) {VF: Valve Failure}
+%	                child{node (c2) {OV1: Overpressure Valves Set 1 Failure}
+  %                      child{node (c3) {SDV1: Shutdown Valve 1 Failure}}
+ %                       child{node (c4) {SV1: Solenoid Valve 1 Failure}}
+%	                     }
+%	                child{node (c5) {OV2: Overpressure Valves Set 2 Failure}
+%	                    child{node (c6) {SDV2: Shutdown Valve 2 Failure}}
+%	                    child{node (c7) {SV2: Solenoid Valve 2 Failure}}
+%	                     }
+%	                 }
+%		};
+%% Place gates and other symbols
+%% In the CVS version of PGF labels are placed differently than in PGF 2.0
+%% To render them correctly replace '-20' with 'right' and add the 'absolute'
+%% option to the tikzpicture environment. The absolute option makes the 
+%% node labels ignore the rotation of the parent node. 
+\node [or]	at (g1.south)	[label=-20:]	{};
+\node [or]	at (g2.south)	[label=-20:]	{};
+\node [or]	at (g3.south)	[label=center:\scriptsize2/3]	{};
+\node [bes]	at (b1.south)	[label=center:\scriptsize{PSH1}]	{};
+\node [bes]	at (b2.south)	[label=center:\scriptsize{PSH2}]	{};
+\node [bes]	at (b3.south)	[label=center:\scriptsize{PSH3}]	{};
+\node [bes]	at (g4.south)	[label=center:\tiny{PSHCC}]	{};
+\node [bel]	at (g5.south)	[label=center:\scriptsize{LS}]	{};
+\node [and]	at (g6.south)	[label=below:]	{};
+\node [or]	at (c1.south)	[label=below:]	{};
+\node [bev]	at (c2.south)	[label=center:\scriptsize{SDV1}]	{};
+\node [bev]	at (c3.south)	[label=center:\scriptsize{SV1}]	{};
+\node [or]	at (c4.south)	[label=below:]	{};
+\node [bev]	at (c5.south)	[label=center:\scriptsize{SDV2}]	{};
+\node [bev]	at (c6.south)	[label=center:\scriptsize{SV2}]	{};
+\end{tikzpicture}
+\caption{Fault tree for the given system}\label{fig:faulttree}
+\end{figure}
+
+The determination of the cut-sets for this fault tree can be seen in the following equations.
+
+\begin{equation*}
+  \begin{aligned}
+TOP = \{Pipeline\ Burst\}
+  \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+  \begin{aligned}
+TOP = \colorbox{blue!30}{$\{Sensor\ Failure\}$} + \colorbox{green!30}{$\{LS\}$} + \colorbox{red!30}{$\{Valve\ Failure\}$}
+  \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+  \begin{aligned}
+TOP = & (\colorbox{blue!30}{$\{Too\ many\ sensors\ failed\}$} + \colorbox{blue!30}{$\{PSHCC\}$}) + \colorbox{green!30}{$\{LS\}$}\\
+& + (\colorbox{red!30}{$\{Failure\ Valve\ Set\ 1\}$}.\colorbox{red!30}{$\{Failure\ Valve\ Set\ 2\}$})
+  \end{aligned}
+\end{equation*}
+
+
+\begin{equation*}
+  \begin{aligned}
+TOP = & ((\colorbox{blue!30}{$\{PSH1\}$}.\colorbox{blue!30}{$\{PSH2\}$}+\colorbox{blue!30}{$\{PSH1\}$}.\colorbox{blue!30}{$\{PSH3\}$}+\colorbox{blue!30}{$\{PSH2\}$}.\colorbox{blue!30}{$\{PSH3\}$}) + \colorbox{blue!30}{$\{PSHCC\}$}) + \colorbox{green!30}{$\{LS\}$}\\
+& + ((\colorbox{red!30}{$SV1$}.\colorbox{red!30}{$SDV1$}).(\colorbox{red!30}{$SV2$}.\colorbox{red!30}{$SDV2$}))
+  \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+  \begin{aligned}
+TOP = & ((\colorbox{blue!30}{$\{PSH1\}$}.\colorbox{blue!30}{$\{PSH2\}$}+\colorbox{blue!30}{$\{PSH1\}$}.\colorbox{blue!30}{$\{PSH3\}$}+\colorbox{blue!30}{$\{PSH2\}$}.\colorbox{blue!30}{$\{PSH3\}$}) + \colorbox{blue!30}{$\{PSHCC\}$}) + \colorbox{green!30}{$\{LS\}$}\\
+& + (\colorbox{red!30}{$\{SV1\}$}.\colorbox{red!30}{$\{SV2\}$} + \colorbox{red!30}{$\{SV1\}$}.\colorbox{red!30}{$\{SDV2\}$} + \colorbox{red!30}{$\{SDV1\}$}.\colorbox{red!30}{$\{SV2\}$} + \colorbox{red!30}{$\{SDV1\}$}.\colorbox{red!30}{$\{SDV2\}$})
+  \end{aligned}
+\end{equation*}
+
+The resulting cutsets therefore are:
+
+\begin{itemize}
+\item \colorbox{blue!30}{$\{PSH1\}$}.\colorbox{blue!30}{$\{PSH2\}$}, the failure of two pressure sensors
+\item \colorbox{blue!30}{$\{PSH1\}$}.\colorbox{blue!30}{$\{PSH3\}$}, the failure of two pressure sensors
+\item \colorbox{blue!30}{$\{PSH2\}$}.\colorbox{blue!30}{$\{PSH3\}$}, the failure of two pressure sensors
+\item \colorbox{blue!30}{$\{PSHCC\}$}, the failure of all pressure sensors due to common cause
+\item \colorbox{green!30}{$\{LS\}$}, the failure of the logic solver
+\item \colorbox{red!30}{$\{SV1\}$}.\colorbox{red!30}{$\{SV2\}$}, the failure of a valve in each valve set
+\item \colorbox{red!30}{$\{SV1\}$}.\colorbox{red!30}{$\{SDV2\}$}, the failure of a valve in each valve set
+\item \colorbox{red!30}{$\{SDV1\}$}.\colorbox{red!30}{$\{SV2\}$}, the failure of a valve in each valve set
+\item \colorbox{red!30}{$\{SDV1\}$}.\colorbox{red!30}{$\{SDV2\}$}, the failure of a valve in each valve set
+\end{itemize}
+
+All those cutsets are minimal, as they can not be reduced any further.
+

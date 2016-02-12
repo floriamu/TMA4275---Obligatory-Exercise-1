@@ -1,0 +1,35 @@
+\section{Question 4: State diagram}
+\textit{Give the state transition diagram related to this system, without any maintenance	action.}
+\begin{center}
+\line(1,0){250}
+\end{center}
+Figure \ref{fig:markov_simple} introduces a simplified markov state diagram. It is derived from figure \ref{fig:markov_complex} but lacks many transitions. The number of possible states is reduced from 12 to 4, no maintenance is possible. The fail states have been reduced to "Failure of Valves", "Failure of Sensors" and "Failure of Logic Solver" - with the respective combined failure rates $\lambda_V$, $\lambda_S$ and $\lambda_L$. No transition between partly functioning states is possible.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+\tikzstyle{every state}=[fill=green!40,draw=black,thick,text=black,scale=1,minimum width=1.5cm]
+\tikzstyle{fail}=[circle,fill=red!40,draw=black,thick,text=black,scale=1,minimum width=1.5cm]
+\node[state]    (A)                     {$SLV$};
+\node[fail]    (B)[above right of=A]   {$\bar{S}LV$};
+\node[fail]    (C)[below right of=A]   {$SL\bar{V}$};
+\node[fail]    (D)[below right of=B]   {$S\bar{L}V$};
+\path
+(A) edge[bend left]     node{$\lambda_S$}     (B)
+    edge[]      node{$\lambda_L$}      (D)
+    edge[bend right, below]    node{$\lambda_V$}      (C)
+    node[above=0.2cm]{1}
+(B) node[above=0.2cm]{2}
+(C) node[above=0.2cm]{3}
+(D) node[above=0.2cm]{4}
+%(B) edge                node{$1$}           (D)
+%(C) edge                node{$1$}           (D)
+%(D) %edge[loop right]    node{$(1-q)^2$}     (D)
+    %edge[bend right,right]    node{$q(1-q)$}      (B)
+    %edge[bend left]     node{$q(1-q)$}      (C)
+%    edge[bend left,above]     node{$\mu_L$}         (A);
+%\draw[red] ($(D)+(-1.5,0)$) ellipse (2cm and 3.5cm)node[yshift=3cm]{Patch H};
+;
+\end{tikzpicture}
+\caption{Simple markov state diagram without maintenance}\label{fig:markov_simple}
+\end{figure}

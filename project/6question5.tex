@@ -1,0 +1,34 @@
+\section{Question 5: Reliability}
+\textit{Calculate the reliability of the system at the steady state.}
+\begin{center}
+\line(1,0){250}
+\end{center}
+The matrix formula
+$\begin{bmatrix}
+P1 & P2 & P3 & P4
+\end{bmatrix}$
+$\times$
+$\begin{bmatrix}
+ -(\lambda_S+\lambda_V+\lambda_L) & \lambda_S & \lambda_V & \lambda_L\\
+ 0 & 0 & 0 & 0\\
+ 0 & 0 & 0 & 0\\
+ 0 & 0 & 0 & 0\\
+ \end{bmatrix}$
+ $= 0$
+ 
+results in following 5 equations, including the boundary condition V:
+
+
+\begin{table}[!ht]
+\centering
+\label{tab:equations}
+\begin{tabular}{ll}
+I   & $-P1\times(\lambda_S+\lambda_V+\lambda_L) = 0$ \\
+II  & $P1\times\lambda_S = 0$ \\
+III & $P1\times\lambda_V = 0$ \\
+IV  & $P1\times\lambda_L = 0$ \\
+V   & $P1+P2+P3+P4 = 1$ 
+\end{tabular}
+\end{table}
+
+From above equations the steady state reliability is $0$. This is independent of the actual numerical values for the various failure rates. This conclusion is trivial, as from the logical approach this result can be achieved easier: A system which only includes failure rates, but no repair rates, will eventually reach (and be kept in) a failed state if time steps into infinity.

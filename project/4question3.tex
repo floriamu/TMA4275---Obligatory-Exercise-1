@@ -1,0 +1,111 @@
+\section{Question 3: Markov possibility}
+\textit{We try to model the	same system with a Markov process. Can we take into account all the events described in the table below?}	
+ \begin{center}
+\line(1,0){250}
+\end{center}
+One of the big advantages of using the markov state diagram approach is its versatility. Virtually every system can be modelled with it. The size and complexity can increase into a level in which calculation by hand is not feasable. However, it is then still a good method to illustrate a system and its possible states and transitions, without using it for further calculations. An exemplary markov state diagram of such purpose can be found in figure \ref{fig:markov_complex}.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=4cm]
+\tikzstyle{every state}=[fill=green!40,draw=black,thick,text=black,scale=1]
+\tikzstyle{fail}=[circle,fill=red!40,draw=black,thick,text=black,scale=1]
+\node[state]    (1)                     {$SSSLVV$};
+\node[fail]     (L)[left of=1]          {$SSS\bar{L}VV$};
+\node[fail]    (CC)[below of=1]        {$\bar{S}\bar{S}\bar{S}LVV$};
+\node[state]    (S)[right of=1]         {$SS\bar{S}LVV$};
+\node[fail]    (SS)[below of=S]        {$S\bar{S}\bar{S}LVV$};
+\node[state]    (SV)[right of=S]       {$SS\bar{S}L\bar{V}V$};
+\node[fail]    (SSV)[below of=SV]      {$S\bar{S}\bar{S}L\bar{V}V$};
+\node[state]    (V)[above of=SV]        {$SSSL\bar{V}V$};
+\node[fail]    (LV)[above of=V]        {$SSS\bar{L}\bar{V}V$};
+\node[fail]    (VCC)[left of=LV]       {$\bar{S}\bar{S}\bar{S}L\bar{V}V$};
+\node[fail]    (SVV)[right of=SV]      {$SS\bar{S}L\bar{V}\bar{V}$};
+\node[fail]    (SLV)[above of=SVV]     {$SS\bar{S}\bar{L}\bar{V}V$};
+\path
+(1)     edge[bend left, below]    node{$\lambda_{LS}$}               (L)
+        edge[]              node{$\lambda_{PSHCC}$}          (CC)
+        edge[]              node[yshift=0.35cm]{$3(\lambda_{PSH})$}         (S)
+        edge[bend left]     node{$2(\lambda_{SV}+\lambda_{SDV})$}(V)
+        node[above=0.3cm]{1}
+%
+(S)     edge[]              node{$2(\lambda_{PSH})$}        (SS)
+        edge[]              node[yshift=0.35cm]{$2(\lambda_{SV}+\lambda_{SDV})$}(SV)
+        node[above=0.3cm]{4}
+%        
+(SV)    edge[]              node{$2(\lambda_{PSH})$}        (SSV)
+        edge[]              node[yshift=2.5cm][xshift=-1.5cm]{$\lambda_{PSHCC}$}      (VCC)
+        edge[below]         node[yshift=-0.35cm]{$(\lambda_{SV}+\lambda_{SDV})$}(SVV)
+        edge[]              node[yshift=1cm][xshift=1cm]{$\lambda_{LS}$}(SLV)
+        node[above=0.3cm]{6}
+%
+(V)     edge[]              node[yshift=0.6cm]{$3(\lambda_{PSH})$}    (SV)
+        edge[]              node[yshift=1.6cm][xshift=0.9cm]{$\lambda_{PSHCC}$}    (VCC)
+        edge[]              node{$\lambda_{LS}$}(LV)
+        node[above=0.3cm]{9}
+%
+(L)     edge[bend left, above]    node{$\mu_{LS}$}               (1)
+        node[above=0.3cm]{2}
+%
+(LV)    edge[bend left]    node{$\mu_{LS}$}               (V)
+        node[above=0.3cm]{11}
+%
+(CC)    node[above=0.3cm]{3}
+(SS)    node[above=0.3cm]{5}
+(SSV)   node[above=0.3cm]{7}
+(SVV)   node[above=0.3cm]{8}
+(VCC)   node[above=0.3cm]{12}
+%
+(SLV)   edge[bend left]    node{$\mu_{LS}$}               (SV)
+        node[above=0.3cm]{10};
+%\node[above=0.3cm] (1){\small{1}};
+%\node[yshift=-3.5cm, above of=1] (L){\small{1}};
+%\node[yshift=-3.5cm, above of=L] (L){\small{2}};
+%\node[above=0.5cm] (L){\small{2}};
+%    edge[]             node{$\lambda_{PSHCC}$}      (E)
+%(B) edge[]             node{$2\lambda_{PSH}$}           (C)
+%    edge[]             node{$2(\lambda_V+\lambda_{DV})$}   (D)
+%(C) edge               node{$1$}           (D)
+%(D) %edge[loop right]    node{$(1-q)^2$}     (D)
+    %edge[bend right,right]    node{$q(1-q)$}      (B)
+    %edge[bend left]     node{$q(1-q)$}      (C)
+%    edge[bend left,above]     node{$\mu_L$}         (A);
+%\draw[red] ($(D)+(-1.5,0)$) ellipse (2cm and 3.5cm)node[yshift=3cm]{Patch H};
+%;
+\end{tikzpicture}
+\caption{Complex markov state diagram }\label{fig:markov_complex}
+\end{figure}
+
+Each state is given in the notation $SSSLVV$. The three $S$ indicate the condition of the pressure sensors, the $L$ gives information about the functionality of the logic solver and the $VV$ part represents the two valve sets. Working states are indicated by green color and failed states by red color.
+
+This expanded diagram allows to illustrate the various changes of partial failed states into other partial failed states and subsequently fully failed states.
+As an example, the system can be in a functioning state with one pressure sensor failed and transit into another functioning state with one valve set failed.
+This diagram also includes the possible repair of the logic solver.
+
+\newpage
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+
+
+
+%$\begin{bmatrix}
+%  \scriptscriptstyle{-(\lambda_L+\lambda_{PSHCC}+3\lambda_{PSH}+2(\lambda_{SV}+\lambda_{SDV}))} & \lambda_L & \lambda_{PSHCC} & 3\lambda_{PSH} & 0 & 0 & 0 & 0 & \scriptscriptstyle{2(\lambda_{SV}+\lambda_{SDV})} & 0 & 0 & 0 \\
+%  \mu_L & -\mu_L & 0 & 0 & 0 &0 & 0 & 0 & 0 & 0 & 0& 0\\
+%    0 & 0 & 0 & 0 & 0 &0 & 0 & 0 & 0 & 0 & 0& 0 \\
+%    0 & 0 & 0 & 0 & 0 &0 & 0 & 0 & 0 & 0 & 0& 0 \\
+%    1 & 2 & 3 & \scriptscriptstyle{-(2\lambda_{PSH}+2(\lambda_{SV}+\lambda_{SDV})) & 2\lambda_{PSH}} &\scriptscriptstyle{2(\lambda_{SV}+\lambda_{SDV})} & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%    1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+% \end{bmatrix}$
+ 
+
+%  $\begin{bmatrix}
+% 1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12 \\
+%  1 & 2 & 3 & 4 & 5 &6 & 7 & 8 & 9 & 10 & 11& 12
+% \end{bmatrix}$
